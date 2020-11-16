@@ -35,16 +35,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-packages-{{ checksum "package.json" }}
-      - add_ssh_keys:
-          fingerprints:
-            - "8d:8f:1e:90:52:94:f8:18:6e:6e:1f:32:93:79:97:7f"
       - run:
           name: Update package patch version
           command: |
-            git config --global user.email "circle_ci@billynorris.co.uk"
-            git config --global user.name "CircleCiUser"
-            npm version patch -m "Update version [skip ci]" --git-tag-version
-            git push
             echo "export PACKAGE_VERSION=$(cat package.json | jq -r '.version')" >> $BASH_ENV
             echo "export PACKAGE_NAME=$(cat package.json | jq -r '.name')" >> $BASH_ENV
       - run:
