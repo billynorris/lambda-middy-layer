@@ -1,0 +1,86 @@
+{
+  "name": "lambda-middy-layer",
+  "version": "1.0.0",
+  "description": "A simple Lambda Layer for middy",
+  "main": "bin/index.js",
+  "types": "bin/index.d.ts",
+  "files": [
+    "bin/**/*"
+  ],
+  "scripts": {
+    "package": "mkdir middy && cp -r ./bin/* middy && cp -r node_modules middy",
+    "build": "node node_modules/typescript/lib/tsc.js",
+    "prepare": "node node_modules/typescript/lib/tsc.js",
+    "lint": "eslint src/**/*.ts tests/*.ts",
+    "test": "exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:billynorris/lambda-middy-layer.git"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.64",
+    "@types/chai": "^4.2.14",
+    "@types/chai-as-promised": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^14.14.7",
+    "@types/sinon": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^4.8.0",
+    "aws-sdk": "^2.793.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "mocha": "^8.2.1",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.1.1",
+    "sinon": "^9.2.1",
+    "ts-mock-imports": "^1.3.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.6",
+    "@dazn/lambda-powertools-correlation-ids": "^1.8.2",
+    "@dazn/lambda-powertools-logger": "^1.24.1",
+    "@dazn/lambda-powertools-middleware-correlation-ids": "^1.27.0",
+    "@dazn/lambda-powertools-middleware-obfuscater": "^1.21.0",
+    "@dazn/lambda-powertools-middleware-sample-logging": "^1.21.0",
+    "@middy/core": "^1.4.0",
+    "@middy/http-cors": "^1.0.0",
+    "@middy/http-error-handler": "^1.0.0",
+    "@middy/http-event-normalizer": "^1.0.0",
+    "@middy/http-header-normalizer": "^1.0.0",
+    "@middy/http-json-body-parser": "^1.0.0",
+    "@middy/secrets-manager": "^1.0.0",
+    "@middy/ssm": "^1.0.0",
+    "http-errors": "^1.8.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "airbnb-typescript/base"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig-linting.json"
+    },
+    "rules": {
+      "implicit-arrow-linebreak": "off",
+      "no-console": "error"
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "bin",
+      "coverage"
+    ]
+  }
+}

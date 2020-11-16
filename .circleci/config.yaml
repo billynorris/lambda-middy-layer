@@ -1,0 +1,90 @@
+orbs:
+  node: circleci/node@4.1.0
+  aws-s3: circleci/aws-s3@2.0.0
+
+version: 2.1
+jobs:
+  build_test:
+    executor:
+      name: node/default
+      tag: "13.14"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Test
+          command: npm run test
+      - save_cache:
+          key: v1-packages-{{ checksum "package.json" }}
+          paths:
+            - ./package.json
+            - ./package-lock.json
+  package:
+    executor:
+      name: node/default
+      tag: "13.14"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-packages-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "8d:8f:1e:90:52:94:f8:18:6e:6e:1f:32:93:79:97:7f"
+      - run:
+          name: Update package patch version
+          command: |
+            git config --global user.email "circle_ci@billynorris.co.uk"
+            git config --global user.name "CircleCiUser"
+            npm version patch -m "Update version [skip ci]" --git-tag-version
+            git push
+            echo "export PACKAGE_VERSION=$(cat package.json | jq -r '.version')" >> $BASH_ENV
+            echo "export PACKAGE_NAME=$(cat package.json | jq -r '.name')" >> $BASH_ENV
+      - run:
+          name: Install Packages
+          command: npm install --production
+      - run:
+          name: Create Lambda Layer
+          command: npm run package
+      - run:
+          name: Create ZIP
+          command: |
+            mkdir -p ./artifacts
+            zip -r ./artifacts/${PACKAGE_NAME}.${PACKAGE_VERSION}.zip middy
+      - save_cache:
+          key: v1-artifacts-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - ./artifacts
+      - store_artifacts:
+          path: ./artifacts
+  deploy:
+    docker:
+      - image: cimg/python:3.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-artifacts-{{ .Branch }}-{{ .Revision }}
+      - aws-s3/sync:
+          from: ./artifacts
+          to: $S3_BUCKET_NAME
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build_test
+      - package:
+          requires:
+            - build_test
+      - deploy:
+          requires:
+            - package
