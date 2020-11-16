@@ -14,7 +14,9 @@
     "lint": "eslint src/**/*.ts tests/*.ts",
     "test": "exit 0"
   },
-  "keywords": [],
+  "keywords": [
+    "middy"
+  ],
   "author": "",
   "license": "ISC",
   "repository": {
