@@ -8,7 +8,7 @@
     "bin/**/*"
   ],
   "scripts": {
-    "package": "mkdir middy && cp -r ./bin/* middy && cp -r node_modules middy",
+    "package": "mkdir -p middy/nodejs && cp -r ./bin/* middy/nodejs && cp -r node_modules middy/nodejs",
     "build": "node node_modules/typescript/lib/tsc.js",
     "prepare": "node node_modules/typescript/lib/tsc.js",
     "lint": "eslint src/**/*.ts tests/*.ts",
