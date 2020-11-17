@@ -60,7 +60,7 @@ export const awsProxyHandler = (
 
   handler.use(httpCorrelationIdsMiddleware());
 
-  if (options.cors) {
+  if (options?.cors) {
     handler.use(cors());
   }
 

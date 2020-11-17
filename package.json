@@ -1,6 +1,6 @@
 {
   "name": "lambda-middy-layer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple Lambda Layer for middy",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
