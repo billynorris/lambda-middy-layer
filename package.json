@@ -1,6 +1,6 @@
 {
   "name": "lambda-middy-layer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple Lambda Layer for middy",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
@@ -8,7 +8,7 @@
     "bin/**/*"
   ],
   "scripts": {
-    "package": "mkdir -p lambda-middy-layer/nodejs && cp -r ./bin/* lambda-middy-layer/nodejs && cp -r node_modules lambda-middy-layer/nodejs && cp -r package*.json lambda-middy-layer/nodejs",
+    "package": "mkdir -p layers/lambda-middy-layer/nodejs && cp -r ./bin/* layers/lambda-middy-layer/nodejs && cp -r node_modules layers/lambda-middy-layer/nodejs && cp -r package*.json layers/lambda-middy-layer/nodejs",
     "build": "node node_modules/typescript/lib/tsc.js",
     "prepare": "node node_modules/typescript/lib/tsc.js",
     "lint": "eslint src/**/*.ts tests/*.ts",

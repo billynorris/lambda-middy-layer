@@ -51,7 +51,7 @@ jobs:
           name: Create ZIP
           command: |
             mkdir -p ./artifacts
-            zip -r ./artifacts/${PACKAGE_NAME}.${PACKAGE_VERSION}.zip ${PACKAGE_NAME}
+            zip -r ./artifacts/${PACKAGE_NAME}.${PACKAGE_VERSION}.zip layers
       - save_cache:
           key: v1-artifacts-{{ .Branch }}-{{ .Revision }}
           paths:
