@@ -14,7 +14,7 @@ const sampleLogging = require('@dazn/lambda-powertools-middleware-sample-logging
 
 const defaultSampleRate: number = 0.1;
 
-export default (__handler: any,
+module.exports = (__handler: any,
   handlerType: 'AUTHORISER' | 'AWS_PROXY' | 'STEP_FUNCTIONS',
   options?: Options | AwsProxyHandlerOptions) => {
   const handler = middy(__handler);
